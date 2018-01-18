@@ -286,7 +286,7 @@ class TodoWrapper extends Component {
               onClick={() => this.setState({view: ''})}>All</button>
             <button
               className={view === 'active' ? 'active' : ''}
-              onClick={() => this.setState({view: 'active'})}>active</button>
+              onClick={() => this.setState({view: 'active'})}>Active</button>
             <button
               className={view === 'completed' ? 'active' : ''}
               onClick={() => this.setState({view: 'completed'})}>Completed</button>
