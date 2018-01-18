@@ -1,0 +1,128 @@
+.App {
+  text-align: center;
+}
+
+.App-title {
+  font-family: var(--thin-font);
+  font-size: 9.8em;
+  font-weight: 100;
+  color: var(--accent-color);
+  opacity: .5;
+}
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.Todo-wrapper {
+  font-family: var(--thin-font);
+  max-width: 800px;
+  margin: 50px auto;
+  font-size: 2.2em;
+  box-shadow: 0 2px 5px rgba(160, 160, 160, 1);  
+}
+.Todo-wrapper::after {
+  content: "";
+  box-shadow: 0 2px 25px rgba(20, 20, 20, 1);
+}
+
+.New-Todo {
+  display: flex;
+  padding: 10px;
+}
+
+.New-Todo > * {
+  outline: 0;
+}
+
+.New-Todo > button {
+  flex: 1;
+  font-size: 1.75em;  
+  font-family: inherit;
+  background: transparent;
+  border: 0;
+}
+
+.New-Todo > button:hover {
+  cursor: pointer;
+}
+
+.New-Todo > input {
+  font-size: 1em;
+  font-family: inherit;
+  flex: 15;
+  background: transparent;
+  border: 0;
+}
+
+.New-Todo > input::-webkit-input-placeholder {
+  font-weight: 100;
+  color: rgba(170, 170, 170, .7);
+}
+
+.Todo-Item {
+  display: flex;
+  align-items: center;
+  font-size: .8em;
+}
+
+.Todo-Item > p {
+ flex: 2;
+}
+
+.Todo-wrapper > hr {
+  margin: 0;
+}
+
+.Todo-Filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: .5em;
+}
+
+.Todo-Filters > * {
+  flex: 1;
+  margin: 10px;
+}
+
+.Todo-Filters > .filter-buttons {
+  flex: 3;
+}
+
+.filter-buttons > button {
+  margin: 0 5px;
+  background: 0;
+  font-size: .9em;
+}
+
+.remove-All {
+  text-decoration: underline;
+  background: 0;
+  font-size: .9em;
+}
+
+button {
+  border: 0;
+  font-family: var(--thin-font);
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button.active {
+  border: 1px solid salmon;
+  border-radius: 4px;
+  outline: 0;
+}
+
+button:focus {
+  outline: 0;
+}
