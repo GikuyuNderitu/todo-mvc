@@ -73,7 +73,13 @@ const todoStyles = {
     width: '100%'
   },
   text:{
-    flex: 12
+    flex: 12,
+    marginLeft: '20px',
+    transition: 'color 200ms ease-in, text-decoration 150ms ease-in'
+  },
+  completedText: {
+    textDecoration: 'line-through',
+    color: '#888'
   },
   clear: {
     marginLeft: 'auto',
@@ -118,7 +124,7 @@ const TodoItemText = props => (
     onMouseEnter={() => props.setHover(props.idx)} 
     onMouseLeave={() => props.setHover(-1)} 
     style={todoStyles.itemTextContainer}>
-    <p style={todoStyles.text} onDoubleClick={() => props.makeEdit(props.idx)}>{props.todo.getTodo()}</p>
+    <p style={mergeObjects(todoStyles.text, props.todo.getCompleted() ? todoStyles.completedText : {})} onDoubleClick={() => props.makeEdit(props.idx)}>{props.todo.getTodo()}</p>
     {props.hovered === props.idx && <div style={todoStyles.clear}>
       <button onClick={() => props.clearItem(props.idx)} style={todoStyles.clearButton}>{'\u274C'}</button>
     </div>}
