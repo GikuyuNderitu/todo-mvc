@@ -41,6 +41,10 @@
   outline: 0;
 }
 
+.Todo-Item:hover {
+  background: rgba(240, 240, 240, .9);
+}
+
 .New-Todo > button {
   flex: 1;
   font-size: 1.75em;  

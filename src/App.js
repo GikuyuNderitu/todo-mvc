@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {List} from 'immutable';
 import './App.css';
+import Hoverable from './Hoverable';
 
 const todoCreator = (todo = '') => {
   let completed = false;
@@ -46,7 +47,7 @@ const todoStyles = {
   },
   checkbox: {
     display: 'inline-block',
-    margin: '0 7px'
+    margin: '0'
   },
   checkBoxLabel:{
     display: 'inline-block',
@@ -58,6 +59,11 @@ const todoStyles = {
   },
   checkBoxLabelActive: {
     background: 'palegreen'
+  },
+  checkBoxLabelHovered: {
+    cursor: 'pointer',
+    background: 'rgb(199, 247, 199)',
+    transition: 'background 250ms ease-in'
   },
   input: {
     flex: 'inherit',
@@ -75,7 +81,10 @@ const todoStyles = {
   text:{
     flex: 12,
     marginLeft: '20px',
-    transition: 'color 200ms ease-in, text-decoration 150ms ease-in'
+    transition: 'color 200ms ease-in, text-decoration 150ms ease-in, background 200ms ease-in'
+  },
+  textHovered: {
+    background: 'white'
   },
   completedText: {
     textDecoration: 'line-through',
@@ -94,9 +103,17 @@ const todoStyles = {
   }
 }
 
-const CheckBox = props => (
+const HoverText = props => (
+  props.hovered ? <p>Hover Text Rendered</p> : <p>Non Hovered</p>
+)
+
+const CheckBoxHoverable = props => (
   <div style={todoStyles.checkbox}>
-    <label style={props.checked ? mergeObjects(todoStyles.checkBoxLabel, todoStyles.checkBoxLabelActive) : todoStyles.checkBoxLabel} htmlFor={props.checkboxId}></label>
+    <label style={mergeObjects(
+      todoStyles.checkBoxLabel,
+      props.hoverStyles,
+      props.checked ? todoStyles.checkBoxLabelActive : {},
+    )} htmlFor={props.checkboxId}></label>
     <input 
       style={{display: 'none'}}
       id={props.checkboxId}
@@ -104,6 +121,12 @@ const CheckBox = props => (
       checked={props.checked}
       onChange={()=>props.handleTodoToggle(props.idx)} />
   </div>
+)
+
+const CheckBox = props => (
+  <Hoverable style={{flex: 1}} hoverStyles={todoStyles.checkBoxLabelHovered} render={({hovered, hoverStyles}) => (
+    <CheckBoxHoverable hovered={hovered} hoverStyles={hoverStyles} {...props} />
+  )} />
 )
 
 const NewTodo = (props) => (
@@ -119,18 +142,20 @@ const NewTodo = (props) => (
   </div>
 )
 
-const TodoItemText = props => (
-  <div
-    onMouseEnter={() => props.setHover(props.idx)} 
-    onMouseLeave={() => props.setHover(-1)} 
-    style={todoStyles.itemTextContainer}>
-    <p style={mergeObjects(todoStyles.text, props.todo.getCompleted() ? todoStyles.completedText : {})} onDoubleClick={() => props.makeEdit(props.idx)}>{props.todo.getTodo()}</p>
-    {props.hovered === props.idx && <div style={todoStyles.clear}>
-      <button onClick={() => props.clearItem(props.idx)} style={todoStyles.clearButton}>{'\u274C'}</button>
-    </div>}
-  </div>
-)
-
+const TodoItemText = props => {
+  const hovered = props.hovered === props.idx;
+  return (
+    <div
+      onMouseEnter={() => props.setHover(props.idx)} 
+      onMouseLeave={() => props.setHover(-1)} 
+      style={todoStyles.itemTextContainer}>
+      <p style={mergeObjects(todoStyles.text, props.todo.getCompleted() ? todoStyles.completedText : {})} onDoubleClick={() => props.makeEdit(props.idx)}>{props.todo.getTodo()}</p>
+      {hovered && <div style={todoStyles.clear}>
+        <button onClick={() => props.clearItem(props.idx)} style={todoStyles.clearButton}>{'\u274C'}</button>
+      </div>}
+    </div>
+  )
+}
 const TodoItemTextArea = props => (
   <div style={todoStyles.item} >
     {props.editing !== props.idx && <TodoItemText 
@@ -241,11 +266,11 @@ class TodoWrapper extends Component {
     const {todos} = this.state;
     switch(view) {
       case 'active':
-        return todos.filter(FILTERS.active).toArray();
+        return todos.filter(FILTERS.active);
       case 'completed':
-        return todos.filter(FILTERS.completed).toArray();
+        return todos.filter(FILTERS.completed);
       default:
-        return todos.toArray();
+        return todos;
     }
   }
 
@@ -275,6 +300,7 @@ class TodoWrapper extends Component {
     const {newTodo, todos, view} = this.state;
     const remaining = todos.filter(FILTERS.active).size;
     const sString = remaining === 1 ? '' : 's';
+    
     return (
       <main className="Todo-wrapper">
         <NewTodo
@@ -315,12 +341,5 @@ const App = (props) => (
     <TodoWrapper />
   </div>
 )
-
-// class App extends Component {
-//   render() {
-//     return (
-//     );
-//   }
-// }
 
 export default App;
